@@ -12,31 +12,29 @@ html, body {
   padding: 0;
   background: #000;
   height: 100%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  overflow-y: scroll; /* вертикальний скрол */
+  -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
 }
 
-/* Секція */
+/* Контейнер для iframe */
 .section {
   width: 100%;
-  height: 100vh;
+  height: 100vh; /* завжди займає весь екран */
   border: none;
   display: block;
   background: #000;
 }
 
-/* Плейсхолдер до активації */
-.placeholder {
-  width: 100%;
-  height: 100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#444;
-  font-family: monospace;
-  font-size: 14px;
-  letter-spacing: 1px;
+/* Плавний скрол між iframe */
+body {
+  scroll-behavior: smooth;
+}
+
+/* Додатково: мобільні оптимізації */
+@media (max-width: 768px) {
+  .section {
+    height: 100vh; /* для мобільних повна висота екрану */
+  }
 }
 </style>
 </head>
@@ -44,59 +42,19 @@ html, body {
 <body>
 
 <!-- 0 · LIS -->
-<div class="placeholder" data-src="https://lavandaaudit.github.io/lis2/">
-  LOADING · LIS
-</div>
+<iframe class="section" src="https://lavandaaudit.github.io/lis2/" loading="lazy"></iframe>
 
 <!-- 1 · ЛАБОРАНТ -->
-<div class="placeholder" data-src="https://lavandaaudit.github.io/laborant2/">
-  LOADING · LABORANT
-</div>
+<iframe class="section" src="https://lavandaaudit.github.io/laborant2/" loading="lazy"></iframe>
 
-<!-- Тераріум -->
-<div class="placeholder" data-src="https://lavandaaudit.github.io/terrarium.ibonarium.lab/">
-  LOADING · TERRARIUM
-</div>
+<!-- Тераріум після лаборанта -->
+<iframe class="section" src="https://lavandaaudit.github.io/terrarium.ibonarium.lab/" loading="lazy"></iframe>
 
-<!-- 2 · VULYK -->
-<div class="placeholder" data-src="https://lavandaaudit.github.io/vulyk1/">
-  LOADING · VULYK
-</div>
+<!-- 2 · NEW13 (НЕ ВИКИДАЄМО) -->
+<iframe class="section" src="https://lavandaaudit.github.io/new13/" loading="lazy"></iframe>
 
-<!-- 3 · EXEBITION -->
-<div class="placeholder" data-src="https://lavandaaudit.github.io/exebition_1/">
-  LOADING · EXEBITION
-</div>
-
-<script>
-/* Intersection Observer */
-const observer = new IntersectionObserver((entries, obs) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const placeholder = entry.target;
-      const src = placeholder.dataset.src;
-
-      const iframe = document.createElement('iframe');
-      iframe.className = 'section';
-      iframe.src = src;
-      iframe.loading = 'lazy';
-
-      placeholder.replaceWith(iframe);
-      obs.unobserve(placeholder);
-    }
-  });
-}, {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.15
-});
-
-/* Підписуємо всі плейсхолдери */
-document.querySelectorAll('.placeholder').forEach(el => {
-  observer.observe(el);
-});
-</script>
+<!-- 3 -->
+<iframe class="section" src="https://lavandaaudit.github.io/exebition_1/" loading="lazy"></iframe>
 
 </body>
 </html>
-
